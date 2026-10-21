@@ -1,0 +1,45 @@
+# =====================================================================
+#  Unreal Engine 5 - .gitignore
+#  Only first-party work is versioned: Source, Config, .uproject
+#  and the project's own folder inside Content/.
+# =====================================================================
+
+# --- Engine / build generated folders ------------------------------
+Binaries/
+Intermediate/
+Saved/
+DerivedDataCache/
+Build/*/
+!Build/*/Resources/
+
+# Project plugins: version source code, not binaries
+Plugins/*/Binaries/
+Plugins/*/Intermediate/
+
+# --- IDEs -------------------------------------------------------------
+.vs/
+.vscode/
+.idea/
+*.sln
+*.suo
+*.sdf
+*.opensdf
+*.VC.db
+*.VC.opendb
+*.code-workspace
+
+# --- OS files ---------------------------------------------------------
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# --- Third-party content (added from the editor / Fab) ----------------
+# See README -> "How to open the project"
+Content/StarterContent/
+Content/Characters/
+Content/ThirdPerson/
+Content/LevelPrototyping/
+Content/Fab/
+Content/Megascans/
+Content/MSPresets/
+*.slnx
