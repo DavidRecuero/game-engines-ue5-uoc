@@ -44,3 +44,6 @@ Content/Megascans/
 Content/MSPresets/
 *.slnx
 Plugins/
+Content/Input/
+Content/__ExternalActors__/ThirdPerson/
+Content/__ExternalObjects__/ThirdPerson/
