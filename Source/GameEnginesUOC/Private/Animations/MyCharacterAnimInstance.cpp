@@ -22,4 +22,8 @@ void UMyCharacterAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	const FVector CharacterVelocity = CharacterMovementComponent->Velocity;
 	Velocity = CharacterVelocity.Size2D();
 	IsMoving = Velocity > 0;
+
+	// Vertical speed and air state drive the jump states
+	ZVelocity = CharacterVelocity.Z;
+	IsFalling = CharacterMovementComponent->IsFalling();
 }

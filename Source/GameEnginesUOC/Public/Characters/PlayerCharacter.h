@@ -35,6 +35,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = Input)
 	UInputAction* LookAction;
 
+	UPROPERTY(EditDefaultsOnly, Category = Input)
+	UInputAction* JumpAction;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
