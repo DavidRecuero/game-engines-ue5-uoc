@@ -9,6 +9,7 @@ class USpringArmComponent;
 class UCameraComponent;
 class UInputMappingContext;
 class UInputAction;
+class AProjectileActor;
 
 UCLASS()
 class GAMEENGINESUOC_API APlayerCharacter : public ACharacter
@@ -26,6 +27,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = Components)
 	UCameraComponent* CameraComponent;
 
+	UPROPERTY(EditDefaultsOnly, Category = Components)
+	USceneComponent* FireSceneComponent;
+
 	UPROPERTY(EditDefaultsOnly, Category = Input)
 	UInputMappingContext* DefaultMappingContext;
 
@@ -38,11 +42,21 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = Input)
 	UInputAction* JumpAction;
 
+	UPROPERTY(EditDefaultsOnly, Category = Input)
+	UInputAction* FireAction;
+
+	UPROPERTY(EditDefaultsOnly, Category = ProjectileConfig)
+	TSubclassOf<AProjectileActor> ProjectileActorClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = ProjectileConfig)
+	UAnimMontage* FireMontage;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	void Move(const FInputActionValue& InputActionValue);
 	void Look(const FInputActionValue& InputActionValue);
+	void Fire();
 
 public:
 	// Called every frame

@@ -5,6 +5,7 @@
 #include "Engine/LocalPlayer.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Actors/ProjectileActor.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -21,6 +22,10 @@ APlayerCharacter::APlayerCharacter()
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>("CameraComponent");
 	CameraComponent->SetupAttachment(SpringArmComponent);
 	CameraComponent->bUsePawnControlRotation = false;
+
+	// Spawn point for projectiles, placed in front of the character in the BP
+	FireSceneComponent = CreateDefaultSubobject<USceneComponent>("FireSceneComponent");
+	FireSceneComponent->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
@@ -58,6 +63,8 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
 	EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
+
+	EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Started, this, &APlayerCharacter::Fire);
 }
 
 void APlayerCharacter::Move(const FInputActionValue& InputActionValue)
@@ -84,4 +91,22 @@ void APlayerCharacter::Look(const FInputActionValue& InputActionValue)
 	AddControllerPitchInput(LookVector.Y);
 }
 
+void APlayerCharacter::Fire()
+{
+	if (!ProjectileActorClass) return;
+
+	// Upper body fire animation
+	if (FireMontage)
+	{
+		PlayAnimMontage(FireMontage);
+	}
+
+	FVector SpawnPos = FireSceneComponent->GetComponentLocation();
+	FRotator SpawnRot = FireSceneComponent->GetComponentRotation();
+
+	FActorSpawnParameters SpawnInfo;
+	SpawnInfo.Owner = this;
+
+	GetWorld()->SpawnActor<AProjectileActor>(ProjectileActorClass, SpawnPos, SpawnRot, SpawnInfo);
+}
 
