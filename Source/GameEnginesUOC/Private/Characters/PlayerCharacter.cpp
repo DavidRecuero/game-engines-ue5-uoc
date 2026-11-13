@@ -6,6 +6,8 @@
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Actors/ProjectileActor.h"
+#include "Interfaces/Interactuable.h"
+#include "DrawDebugHelpers.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -65,6 +67,8 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
 
 	EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Started, this, &APlayerCharacter::Fire);
+
+	EnhancedInputComponent->BindAction(InteractionAction, ETriggerEvent::Started, this, &APlayerCharacter::Interact);
 }
 
 void APlayerCharacter::Move(const FInputActionValue& InputActionValue)
@@ -110,3 +114,30 @@ void APlayerCharacter::Fire()
 	GetWorld()->SpawnActor<AProjectileActor>(ProjectileActorClass, SpawnPos, SpawnRot, SpawnInfo);
 }
 
+void APlayerCharacter::Interact()
+{
+	// Short trace from the character's eyes towards where it is looking
+	FVector StartLocation;
+	FRotator Rotation;
+	GetActorEyesViewPoint(StartLocation, Rotation);
+
+	const FVector EndLocation = StartLocation + (Rotation.Vector() * 200.0f);
+
+	FHitResult HitResult;
+	FCollisionQueryParams Params;
+	Params.AddIgnoredActor(this);
+
+	DrawDebugLine(GetWorld(), StartLocation, EndLocation, FColor::Yellow, false, 5.0f);
+
+	const bool bHit = GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Visibility, Params);
+	if (!bHit) return;
+
+	AActor* HitActor = HitResult.GetActor();
+	if (!IsValid(HitActor)) return;
+
+	// Talk to the actor through the interface, no need to know its class
+	if (HitActor->GetClass()->ImplementsInterface(UInteractuable::StaticClass()))
+	{
+		IInteractuable::Execute_Interact(HitActor, this);
+	}
+}

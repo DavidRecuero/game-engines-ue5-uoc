@@ -45,6 +45,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = Input)
 	UInputAction* FireAction;
 
+	UPROPERTY(EditDefaultsOnly, Category = Input)
+	UInputAction* InteractionAction;
+
 	UPROPERTY(EditDefaultsOnly, Category = ProjectileConfig)
 	TSubclassOf<AProjectileActor> ProjectileActorClass;
 
@@ -57,6 +60,7 @@ protected:
 	void Move(const FInputActionValue& InputActionValue);
 	void Look(const FInputActionValue& InputActionValue);
 	void Fire();
+	void Interact();
 
 public:
 	// Called every frame
