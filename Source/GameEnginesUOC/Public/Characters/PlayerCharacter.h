@@ -10,6 +10,7 @@ class UCameraComponent;
 class UInputMappingContext;
 class UInputAction;
 class AProjectileActor;
+class UGunComponent;
 
 UCLASS()
 class GAMEENGINESUOC_API APlayerCharacter : public ACharacter
@@ -26,6 +27,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = Components)
 	UCameraComponent* CameraComponent;
+
+	UPROPERTY(EditDefaultsOnly, Category = Components)
+	UGunComponent* GunComponent;
 
 	UPROPERTY(EditDefaultsOnly, Category = Components)
 	USceneComponent* FireSceneComponent;

@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Actors/ProjectileActor.h"
+#include "Components/GunComponent.h"
 #include "Interfaces/Interactuable.h"
 #include "DrawDebugHelpers.h"
 
@@ -25,7 +26,11 @@ APlayerCharacter::APlayerCharacter()
 	CameraComponent->SetupAttachment(SpringArmComponent);
 	CameraComponent->bUsePawnControlRotation = false;
 
-	// Spawn point for projectiles, placed in front of the character in the BP
+	// The gun handles the shooting logic
+	GunComponent = CreateDefaultSubobject<UGunComponent>("GunComponent");
+	GunComponent->SetupAttachment(GetMesh(), TEXT("GunSocket"));
+
+	// Fire point hangs from the character so shots always go forward, regardless of the hand animation	FireSceneComponent = CreateDefaultSubobject<USceneComponent>("FireSceneComponent");
 	FireSceneComponent = CreateDefaultSubobject<USceneComponent>("FireSceneComponent");
 	FireSceneComponent->SetupAttachment(RootComponent);
 }
@@ -97,21 +102,17 @@ void APlayerCharacter::Look(const FInputActionValue& InputActionValue)
 
 void APlayerCharacter::Fire()
 {
-	if (!ProjectileActorClass) return;
-
 	// Upper body fire animation
 	if (FireMontage)
 	{
 		PlayAnimMontage(FireMontage);
 	}
 
-	FVector SpawnPos = FireSceneComponent->GetComponentLocation();
-	FRotator SpawnRot = FireSceneComponent->GetComponentRotation();
-
-	FActorSpawnParameters SpawnInfo;
-	SpawnInfo.Owner = this;
-
-	GetWorld()->SpawnActor<AProjectileActor>(ProjectileActorClass, SpawnPos, SpawnRot, SpawnInfo);
+	// Hitscan instead of spawning a projectile: the player asks the gun to fire
+	if (IsValid(GunComponent))
+	{
+		GunComponent->Fire(FireSceneComponent);
+	}
 }
 
 void APlayerCharacter::Interact()
