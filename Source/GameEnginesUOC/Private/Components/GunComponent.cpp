@@ -2,6 +2,9 @@
 #include "DrawDebugHelpers.h"
 #include "Engine/Engine.h"
 #include "Engine/World.h"
+#include "GameFramework/Pawn.h"
+#include "GameFramework/DamageType.h"
+#include "Kismet/GameplayStatics.h"
 
 UGunComponent::UGunComponent()
 {
@@ -33,6 +36,14 @@ void UGunComponent::Fire(USceneComponent* FirePosComponent)
 				*OutHit.GetActor()->GetName(),
 				*OutHit.ImpactPoint.ToString(),
 				*OutHit.ImpactNormal.ToString()));
+		}
+
+		// Deal damage to whatever was hit; actors with a HealthComponent will react to it
+		if (IsValid(OutHit.GetActor()))
+		{
+			APawn* OwnerPawn = Cast<APawn>(GetOwner());
+			AController* InstigatorController = IsValid(OwnerPawn) ? OwnerPawn->GetController() : nullptr;
+			UGameplayStatics::ApplyDamage(OutHit.GetActor(), Damage, InstigatorController, GetOwner(), UDamageType::StaticClass());
 		}
 	}
 }

@@ -30,7 +30,7 @@ APlayerCharacter::APlayerCharacter()
 	GunComponent = CreateDefaultSubobject<UGunComponent>("GunComponent");
 	GunComponent->SetupAttachment(GetMesh(), TEXT("GunSocket"));
 
-	// Fire point hangs from the character so shots always go forward, regardless of the hand animation	FireSceneComponent = CreateDefaultSubobject<USceneComponent>("FireSceneComponent");
+	// Fire point hangs from the character so shots always go forward, regardless of the hand animation
 	FireSceneComponent = CreateDefaultSubobject<USceneComponent>("FireSceneComponent");
 	FireSceneComponent->SetupAttachment(RootComponent);
 }

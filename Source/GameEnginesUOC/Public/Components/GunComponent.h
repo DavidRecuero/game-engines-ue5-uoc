@@ -20,4 +20,8 @@ protected:
 	// Maximum range of the shot
 	UPROPERTY(EditDefaultsOnly, Category = "Settings")
 	float Distance = 1000.0f;
+
+	// Damage applied to the actor hit by the shot
+	UPROPERTY(EditDefaultsOnly, Category = "Settings")
+	float Damage = 25.0f;
 };
