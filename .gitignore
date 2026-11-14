@@ -35,7 +35,16 @@ Desktop.ini
 
 # --- Third-party content (added from the editor / Fab) ----------------
 # See README -> "How to open the project"
-Content/StarterContent/
+# StarterContent: only what the project uses is versioned
+Content/StarterContent/*
+!Content/StarterContent/Shapes/
+!Content/StarterContent/Materials/
+!Content/StarterContent/Textures/
+Content/StarterContent/Textures/*
+!Content/StarterContent/Textures/T_Concrete_Grime_D.uasset
+!Content/StarterContent/Textures/T_Brick_Clay_Beveled_*.uasset
+!Content/StarterContent/Textures/T_Wood_Floor_Walnut_*.uasset
+!Content/StarterContent/Textures/T_Metal_Rust_*.uasset
 Content/Characters/
 Content/ThirdPerson/
 Content/LevelPrototyping/
