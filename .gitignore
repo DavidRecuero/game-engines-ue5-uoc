@@ -45,6 +45,8 @@ Content/StarterContent/Textures/*
 !Content/StarterContent/Textures/T_Brick_Clay_Beveled_*.uasset
 !Content/StarterContent/Textures/T_Wood_Floor_Walnut_*.uasset
 !Content/StarterContent/Textures/T_Metal_Rust_*.uasset
+!Content/StarterContent/Textures/T_MacroVariation.uasset
+!Content/StarterContent/Textures/T_Perlin_Noise_M.uasset
 Content/Characters/
 Content/ThirdPerson/
 Content/LevelPrototyping/
@@ -56,3 +58,4 @@ Plugins/
 Content/Input/
 Content/__ExternalActors__/ThirdPerson/
 Content/__ExternalObjects__/ThirdPerson/
+
